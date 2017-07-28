@@ -248,18 +248,19 @@ exports.get_value = function(section, value, condition, cb){
   })
 }
 
-exports.get_values = function(section, keys, condition, cb){
+exports.get_values = function(section, keys, condition,namespace,cb){
 
-  var cond = condition ? ' where "' + condition + '" ' : '';
-  var cmd = section + cond + ' get ' + keys;
+ var cond = condition ? ' where "' + condition + '" ' : '';
+  var ns = "";
+  if (namespace) ns = ' /namespace:' + namespace + ' ';
+  var cmd = ns + section + cond + ' get ' + keys;
 
-  run(cmd, function(err, out){
+ run(cmd, function(err, out){
     if (err) return cb(err);
     cb(null, parse_values(out));
   });
 
 };
-
 
 /**
  * Calls back an array of objects for the given command.
